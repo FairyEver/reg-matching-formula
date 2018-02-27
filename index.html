@@ -97,7 +97,8 @@
         methods: {
             getNumber: function () {
                 var _this = this
-                var reg = /(FR1|FR2|FR3)|(\+|-|\*|\/|\(|\))|\d+(\.\d+)?/g
+                // var reg = /(FR1|FR2|FR3)|(\+|-|\*|\/|\(|\))|\d+(\.\d+)?/g
+                var reg = new RegExp('(' + _this.variableReg + ')|(\\+|-|\\*|\\/|\\(|\\))|\\d+(\\.\\d+)?', 'g')
                 var res = this.formula.match(reg)
 
                 // 检验是否是变量的正则
