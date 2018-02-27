@@ -28,6 +28,21 @@
             @click="formula = formulaDemoItem">
             {{formulaDemoItem}}
         </button>
+        <p class="mt10">
+            <span
+                v-for="(formulaItem, index) in formulaArray"
+                :key="index">
+                <template v-if="formulaItem.type === 'variable'">
+                    <span class="badge badge-primary">{{formulaItem.label}}</span>
+                </template>
+                <template v-if="formulaItem.type === 'operator'">
+                    <span class="badge badge-secondary">{{formulaItem.label}}</span>
+                </template>
+                <template v-if="formulaItem.type === 'constant'">
+                    <span class="badge badge-success">{{formulaItem.label}}</span>
+                </template>
+            </span>
+        </p>
     </div>
 </body>
 <script>
@@ -36,10 +51,13 @@
         data: {
             // 公式文本
             formula: '',
+            // 解析后的公式
+            formulaArray: [],
             // 公式示例
             formulaDemo: [
                 '(FR1+FR2)*12+10',
-                'FR3*(FR1+FR2)*12'
+                'FR3*(FR1+FR2)*1.2+0.5',
+                '2+FR1/4'
             ],
             // 符号
             operatorOptions: [
@@ -52,16 +70,74 @@
             ],
             // 变量
             variableOptions: [
-                {label: 'FR1', value: 'FR1'},
-                {label: 'FR2', value: 'FR2'},
-                {label: 'FR3', value: 'FR3'},
-                {label: 'FR4', value: 'FR4'},
-                {label: 'FR5', value: 'FR5'}
+                {label: 'FR-1', value: 'FR1'},
+                {label: 'FR-2', value: 'FR2'},
+                {label: 'FR-3', value: 'FR3'},
+                {label: 'FR-4', value: 'FR4'},
+                {label: 'FR-5', value: 'FR5'}
             ]
+        },
+        computed: {
+            operatorReg: function () {
+                return this.operatorOptions.map(function (variable) {
+                    return variable.value
+                }).join('|')
+            },
+            variableReg: function () {
+                return this.variableOptions.map(function (variable) {
+                    return variable.value
+                }).join('|')
+            }
         },
         watch: {
             formula: function (value) {
-                console.log(value)
+                this.getNumber()
+            }
+        },
+        methods: {
+            getNumber: function () {
+                var _this = this
+                var reg = /(FR1|FR2|FR3)|(\+|-|\*|\/|\(|\))|\d+(\.\d+)?/g
+                var res = this.formula.match(reg)
+
+                // 检验是否是变量的正则
+                var isVariable = new RegExp(this.variableReg, 'g')
+                // 检验是否是符号的正则
+                var isOperator = /\+|-|\*|\/|\(|\)/
+                // 检验是否是常量的正则
+                var isConstant = /\d+(\.\d+)?/
+
+                var _res = res.map(function (item) {
+                    // 检验变量
+                    if (isVariable.test(item)) {
+                        return {
+                            type: 'variable',
+                            value: item,
+                            label: _this.variableOptions.find(function (variable) {
+                                return variable.value === item
+                            }).label
+                        }
+                    }
+                    // 检验变量
+                    else if (isOperator.test(item)) {
+                        return {
+                            type: 'operator',
+                            value: item,
+                            label: _this.operatorOptions.find(function (operator) {
+                                return operator.value === item
+                            }).label
+                        }
+                    }
+                    // 检验常量
+                    else if (isConstant.test(item)) {
+                        return {
+                            type: 'constant',
+                            value: item,
+                            label: item
+                        }
+                    }
+                })
+                this.formulaArray = _res
             }
         }
     })
