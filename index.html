@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>demo</title>
+    <!-- <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script> -->
+    <link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <div id="app">
+        <label>输入公式</label>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">公式</span>
+            </div>
+            <input type="text" class="form-control" v-model="formula">
+        </div>
+        <!-- 示例公式 -->
+        <button
+            v-for="(formulaDemoItem, index) in formulaDemo"
+            :key="index"
+            type="button"
+            class="btn btn-primary mr10"
+            @click="formula = formulaDemoItem">
+            {{formulaDemoItem}}
+        </button>
+    </div>
+</body>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            // 公式文本
+            formula: '',
+            // 公式示例
+            formulaDemo: [
+                '(FR1+FR2)*12+10',
+                'FR3*(FR1+FR2)*12'
+            ]
+        },
+        watch: {
+            formula: function (value) {
+                console.log(value)
+            }
+        }
+    })
+</script>
+</html>
