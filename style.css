@@ -1,6 +1,10 @@
 body {
   margin: 20px; }
 
+pre {
+  border-radius: 4px;
+  font-size: 12px; }
+
 .mt10 {
   margin-top: 10px; }
 

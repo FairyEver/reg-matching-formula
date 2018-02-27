@@ -9,10 +9,13 @@
     <link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <link rel="stylesheet" href="./styles/atom-one-dark.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
 </head>
 <body>
     <div id="app">
-        <label>输入公式</label>
+        <h1>公式匹配</h1>
+        <label>输入公式 或者点击下面的按钮快速查看演示</label>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text">公式</span>
@@ -20,14 +23,17 @@
             <input type="text" class="form-control" v-model="formula">
         </div>
         <!-- 示例公式 -->
-        <button
-            v-for="(formulaDemoItem, index) in formulaDemo"
-            :key="index"
-            type="button"
-            class="btn btn-primary mr10"
-            @click="formula = formulaDemoItem">
-            {{formulaDemoItem}}
-        </button>
+        <div class="mb10">
+            <button
+                v-for="(formulaDemoItem, index) in formulaDemo"
+                :key="index"
+                type="button"
+                class="btn btn-primary mr10"
+                @click="formula = formulaDemoItem">
+                {{formulaDemoItem}}
+            </button>
+        </div>
+        <p v-if="formulaArray.length > 0">解析结果</p>
         <p class="mt10">
             <span
                 v-for="(formulaItem, index) in formulaArray"
@@ -43,6 +49,8 @@
                 </template>
             </span>
         </p>
+        <p v-if="formulaArray.length > 0">解析数据</p>
+        <pre v-if="formulaArray.length > 0" class="hljs" v-html="highlightHTML"></pre>
     </div>
 </body>
 <script>
@@ -75,7 +83,8 @@
                 {label: 'FR-3', value: 'FR3'},
                 {label: 'FR-4', value: 'FR4'},
                 {label: 'FR-5', value: 'FR5'}
-            ]
+            ],
+            highlightHTML: ''
         },
         computed: {
             operatorReg: function () {
@@ -139,6 +148,7 @@
                     }
                 })
                 this.formulaArray = _res
+                this.highlightHTML = hljs.highlightAuto(JSON.stringify(this.formulaArray, null, '\t')).value
             }
         }
     })
