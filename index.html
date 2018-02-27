@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>demo</title>
-    <!-- <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script> -->
     <link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
@@ -14,8 +13,16 @@
 </head>
 <body>
     <div id="app">
-        <h1>公式匹配</h1>
+        <h1>公式匹配 <a href="https://github.com/FairyEver/reg-matching-formula/blob/master/index.html">in Github</a></h1>
         <label>输入公式 或者点击下面的按钮快速查看演示</label>
+        <p>
+            当前可用的变量 (在 variableOptions 中保存，其它变量无效)：
+            <span
+                v-for="(variableItem, index) in variableOptions"
+                :key="index">
+                {{variableItem.label}}
+            </span>
+        </p>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text">公式</span>
@@ -78,11 +85,11 @@
             ],
             // 变量
             variableOptions: [
-                {label: 'FR-1', value: 'FR1'},
-                {label: 'FR-2', value: 'FR2'},
-                {label: 'FR-3', value: 'FR3'},
-                {label: 'FR-4', value: 'FR4'},
-                {label: 'FR-5', value: 'FR5'}
+                {label: 'FR1', value: 'FR1'},
+                {label: 'FR2', value: 'FR2'},
+                {label: 'FR3', value: 'FR3'},
+                {label: 'FR4', value: 'FR4'},
+                {label: 'FR5', value: 'FR5'}
             ],
             highlightHTML: ''
         },
