@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>demo</title>
+
     <link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    
     <link rel="stylesheet" href="./styles/atom-one-dark.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
 </head>
@@ -113,7 +116,7 @@
         methods: {
             getNumber: function () {
                 var _this = this
-                // var reg = /(FR1|FR2|FR3)|(\+|-|\*|\/|\(|\))|\d+(\.\d+)?/g
+                // /(FR1|FR2|FR3)|(\+|-|\*|\/|\(|\))|\d+(\.\d+)?/g
                 var reg = new RegExp('(' + _this.variableReg + ')|(\\+|-|\\*|\\/|\\(|\\))|\\d+(\\.\\d+)?', 'g')
                 var res = this.formula.match(reg)
 
